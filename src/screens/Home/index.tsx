@@ -28,7 +28,7 @@ export function Home() {
     };
     return (
     <View style={styles.container}>
-        <Text style={styles.headerText}>Qual Filme Você Quer Assitir?</Text>
+        <Text style={styles.headerText}>Escolha o Seu Filme do Dia!</Text>
         <View style={styles.containerInput}>
             <TextInput 
                 placeholderTextColor="#FFF" 
