@@ -5,6 +5,7 @@ import { View, Text, TextInput, FlatList, ActivityIndicator} from "react-native"
 import { styles } from './styles';
 import { api } from '../../services/api';
 import { CardMovies } from '../../components/CardsMovies';
+import { useNavigation } from '@react-navigation/native';
 
 interface Movie {
     id: number;
@@ -63,11 +64,19 @@ export function Home() {
         }
     };
 
+
+    const navigation = useNavigation()
+
+    const renderMovieItem = ({item} : {item: Movie}) => (
+        <CardMovies data={item} onPress={() => navigation.navigate("Details", {movieId: item.id})}/>
+    )
+
     const movieData = search.length > 2 ? searchResultMovies : discoveryMovies;
 
     return (
     <View style={styles.container}>
         <Text style={styles.headerText}>Escolha o Seu Filme do Dia!</Text>
+
         <View style={styles.containerInput}>
             <TextInput 
                 placeholderTextColor="#FFF" 
@@ -78,11 +87,19 @@ export function Home() {
             />
             <MagnifyingGlass color='#FFF' size={25} weight='light'/>
         </View>
+
+        {noResult && (
+            <Text style={styles.noResult}>
+                Nenhum filme encontrado para "{search}"
+            </Text>
+
+        )}
+
         <View>
             <FlatList 
                 data={movieData}
                 numColumns={3}
-                renderItem={(item) => <CardMovies data={item.item} />}
+                renderItem={renderMovieItem}
                 showsVerticalScrollIndicator={false}  
                 contentContainerStyle={{
                     paddingBottom: 100,
