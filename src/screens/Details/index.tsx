@@ -1,6 +1,6 @@
-import { useRoute } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { useEffect, useState } from "react";
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { api } from "../../services/api";
 import {
   BookmarkSimple,
@@ -33,6 +33,8 @@ export function Details() {
   const route = useRoute();
   const { movieId } = route.params as RouterProps;
 
+  const navigation = useNavigation()
+
   //criar useEffect de buscar o movie
   useEffect(() => {
     const fetchMovieDetails = async () => {
@@ -57,7 +59,9 @@ export function Details() {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity>
+        <TouchableOpacity
+        onPress={() => navigation.goBack()}
+        >
           <CaretLeft color="#fff" size={32} weight="thin" />
         </TouchableOpacity>
         <Text style={styles.headerText}>Detalhes</Text>
@@ -65,6 +69,11 @@ export function Details() {
           <BookmarkSimple color="#fff" size={32} weight="thin" />
         </TouchableOpacity>
       </View>
+
+      {loading && <ActivityIndicator size="large" color="#FFF"/>}
+      {loading && <>
+      
+      </>}
       <View>
         <Image
           source={{
